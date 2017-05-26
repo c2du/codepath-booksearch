@@ -35,12 +35,16 @@ public class BookListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_list);
+
         lvBooks = (ListView) findViewById(R.id.lvBooks);
         ArrayList<Book> aBooks = new ArrayList<>();
         // initialize the adapter
         bookAdapter = new BookAdapter(this, aBooks);
         // attach the adapter to the ListView
         lvBooks.setAdapter(bookAdapter);
+
+        setupListViewListener();
+
         // Fetch the data remotely
         //fetchBooks("Oscar Wilde");
     }
@@ -122,4 +126,17 @@ public class BookListActivity extends AppCompatActivity {
     }
 
 
+
+    public void setupListViewListener() {
+        lvBooks.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // fire intent: open Detail activity
+                Intent i = new Intent(BookListActivity.this, BookDetailActivity.class);
+                Book dataToSend = bookAdapter.getItem(position);
+                i.putExtra("bookObject", dataToSend);
+                startActivity(i);
+            }
+        });
+    }
 }

@@ -8,6 +8,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.codepath.android.booksearch.R;
+import com.codepath.android.booksearch.models.Book;
+import com.squareup.picasso.Picasso;
 
 public class BookDetailActivity extends AppCompatActivity {
     private ImageView ivBookCover;
@@ -24,8 +26,17 @@ public class BookDetailActivity extends AppCompatActivity {
         tvAuthor = (TextView) findViewById(R.id.tvAuthor);
 
         // Extract book object from intent extras
+        Book bookObject = (Book) getIntent().getParcelableExtra("bookObject");
 
         // Use book object to populate data into views
+        getSupportActionBar().setTitle(bookObject.getTitle());
+        tvTitle.setText(bookObject.getTitle());
+        tvAuthor.setText(bookObject.getAuthor());
+        // clear image from last time
+        ivBookCover.setImageResource(0);
+
+        // set new image
+        Picasso.with(this).load(bookObject.getCoverUrl()).into(ivBookCover);
     }
 
 
